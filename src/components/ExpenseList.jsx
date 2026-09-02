@@ -70,13 +70,13 @@ export default function ExpenseList({
       {sorted.length === 0 ? (
         <p className="empty">No expenses match these filters.</p>
       ) : (
-        sorted.map((expense, index) => (
+        sorted.map((expense) => (
           <ExpenseRow
-            key={expense.id || index}
+            key={expense.id}
             expense={expense}
             memberMap={memberMap}
-            onDelete={() => onDelete(index)}
-            onSaveAmount={(amount) => onUpdate(index, { amount })}
+            onDelete={() => onDelete(expense.id)}
+            onSaveAmount={(amount) => onUpdate(expense.id, { amount })}
           />
         ))
       )}

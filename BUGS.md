@@ -63,3 +63,13 @@ Keep this file in the repo and **commit it** with your fixes.
 **What is wrong:** In `src/lib/settle.js`, the `while` loop had an `else` branch for when `d.amount === c.amount` that only incremented indices `i += 1; j += 1;` without adding the transfer to `transfers`. As a result, exact matching debts were skipped and not resolved in the settlement suggestions.
 
 **What I changed:** In `src/lib/settle.js`, computed `settleAmount = Math.min(d.amount, c.amount)` and pushed the transfer for all valid amounts, decrementing both debtor and creditor amounts and advancing pointers appropriately.
+
+---
+
+## Bug 7
+
+**How to reproduce:** Filter the expense list by search, category, or person (or sort them), and click "Delete" or edit an amount on an expense.
+
+**What is wrong:** The component passed the index from the filtered/sorted array to `DELETE_EXPENSE` / `UPDATE_EXPENSE`, causing the reducer to delete or update the wrong item in `state.expenses`.
+
+**What I changed:** In `src/state/store.js`, `src/App.jsx`, and `src/components/ExpenseList.jsx`, switched from index-based deletion and updating to ID-based (`expense.id`), ensuring the correct expense is targeted regardless of sorting or active filters.

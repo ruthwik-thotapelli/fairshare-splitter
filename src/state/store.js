@@ -47,14 +47,14 @@ export function reducer(state, action) {
     case "DELETE_EXPENSE": {
       return {
         ...state,
-        expenses: state.expenses.filter((_, i) => i !== action.index),
+        expenses: state.expenses.filter((e) => e.id !== action.id),
       };
     }
     case "UPDATE_EXPENSE": {
       return {
         ...state,
-        expenses: state.expenses.map((e, i) =>
-          i === action.index ? { ...e, ...action.patch } : e
+        expenses: state.expenses.map((e) =>
+          e.id === action.id ? { ...e, ...action.patch } : e
         ),
       };
     }

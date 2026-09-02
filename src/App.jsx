@@ -93,9 +93,9 @@ export default function App() {
           <ExpenseList
             expenses={filtered}
             members={state.members}
-            onDelete={(index) => dispatch({ type: "DELETE_EXPENSE", index })}
-            onUpdate={(index, patch) =>
-              dispatch({ type: "UPDATE_EXPENSE", index, patch })
+            onDelete={(id) => dispatch({ type: "DELETE_EXPENSE", id })}
+            onUpdate={(id, patch) =>
+              dispatch({ type: "UPDATE_EXPENSE", id, patch })
             }
           />
         </div>
