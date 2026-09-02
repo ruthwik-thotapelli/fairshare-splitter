@@ -12,19 +12,4 @@ Keep this file in the repo and **commit it** with your fixes.
 
 **What is wrong:** The list is showing oldest expenses first. Newest should be at the top.
 
-**What I changed:** *(pending fix)*
-
----
-
-<!-- Copy this block for each additional bug you find:
-
-## Bug N
-
-**How to reproduce:** 
-
-**What is wrong:** 
-
-**What I changed:** 
-
----
--->
+**What I changed:** In `src/components/ExpenseList.jsx`, changed the sort order from `dateValue(a.date) - dateValue(b.date)` to `dateValue(b.date) - dateValue(a.date)` to reverse the sorting so newest expenses appear first.
