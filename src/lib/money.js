@@ -4,3 +4,35 @@ export function formatMoney(amount) {
   const sign = n < 0 ? "-" : "";
   return `${sign}$${Math.abs(n).toFixed(2)}`;
 }
+
+export function splitEqual(amount, ids) {
+  const n = ids.length || 1;
+  const each = Number((Number(amount) / n).toFixed(2));
+  const shares = {};
+  ids.forEach((id) => {
+    shares[id] = each;
+  });
+  return shares;
+}
+
+export function percentsSumTo100(percents) {
+  const values = Object.values(percents).map(Number);
+  const sum = values.reduce((a, b) => a + b, 0);
+  return Math.abs(sum - 100) < 0.001;
+}
+
+export function splitByPercent(amount, percents) {
+  const n = Number(amount);
+  const shares = {};
+  for (const [id, pct] of Object.entries(percents)) {
+    shares[id] = Number(((n * Number(pct)) / 100).toFixed(2));
+  }
+  return shares;
+}
+
+export function sharesForExpense(expense) {
+  if (expense.splitType === "percent" && expense.percents) {
+    return splitByPercent(expense.amount, expense.percents);
+  }
+  return splitEqual(expense.amount, expense.splitWith);
+}
