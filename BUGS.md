@@ -23,3 +23,13 @@ Keep this file in the repo and **commit it** with your fixes.
 **What is wrong:** The "Paid by" filter doesn't work because it compares a string value from the select element to numeric member IDs in the expense data, causing the comparison to always fail.
 
 **What I changed:** In `src/App.jsx`, changed the filter comparison from `e.paidBy !== paidBy` to `e.paidBy !== Number(paidBy)` to convert the string select value to a number before comparing.
+
+---
+
+## Bug 3
+
+**How to reproduce:** Add an expense, close and reopen the app (by clearing localStorage or refreshing). The expense list order is wrong.
+
+**What is wrong:** When expenses are loaded from localStorage, the date strings are not converted back to Date objects. This breaks date comparisons and sorting.
+
+**What I changed:** In `src/state/store.js`, modified `loadState()` to call `hydrate()` on the parsed data from localStorage, which converts date strings back to Date objects. Also improved `dateValue()` in `src/lib/format.js` to handle both Date objects and strings.
