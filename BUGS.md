@@ -43,3 +43,13 @@ Keep this file in the repo and **commit it** with your fixes.
 **What is wrong:** When the payer is not in the split group, they're incorrectly being charged a share of the expense. According to the spec, if someone pays for something they don't use (like a cab they didn't ride), they should get that fare back in full.
 
 **What I changed:** In `src/lib/balances.js`, removed the incorrect logic that was subtracting the payer's share when they weren't in the split. Now the payer simply gets credited the full amount they paid, and only the people in the split group are charged their shares.
+
+---
+
+## Bug 5
+
+**How to reproduce:** Check the Balances panel. A member with a positive balance (who paid more than their share and is in credit) shows as "owes $X" in red text, while a member with a negative balance (who consumed more than paid and owes money) shows as "is owed $X" in green text.
+
+**What is wrong:** The conditions and CSS classes in `BalancesPanel.jsx` were inverted. Positive balance (`bal > 0`) represents credit and should say "is owed", whereas negative balance (`bal < 0`) represents debt and should say "owes".
+
+**What I changed:** In `src/components/BalancesPanel.jsx`, updated the condition checks and class names so `bal > 0.005` renders `is owed ${formatMoney(bal)}` with class `owed` (green), and `bal < -0.005` renders `owes ${formatMoney(-bal)}` with class `owe` (red).
