@@ -1,15 +1,27 @@
 export function formatDate(date) {
-  if (date instanceof Date) {
+  if (date instanceof Date && !Number.isNaN(date.getTime())) {
     return date.toLocaleDateString("en-IN", {
       day: "numeric",
       month: "short",
       year: "numeric",
     });
   }
+  if (typeof date === "string") {
+    const d = new Date(date);
+    if (!Number.isNaN(d.getTime())) {
+      return d.toLocaleDateString("en-IN", {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+      });
+    }
+    return date.slice(0, 10);
+  }
   return String(date);
 }
 
 export function dateValue(date) {
   if (date instanceof Date) return date.getTime();
+  if (typeof date === "string") return new Date(date).getTime();
   return date;
 }
