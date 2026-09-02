@@ -73,3 +73,13 @@ Keep this file in the repo and **commit it** with your fixes.
 **What is wrong:** The component passed the index from the filtered/sorted array to `DELETE_EXPENSE` / `UPDATE_EXPENSE`, causing the reducer to delete or update the wrong item in `state.expenses`.
 
 **What I changed:** In `src/state/store.js`, `src/App.jsx`, and `src/components/ExpenseList.jsx`, switched from index-based deletion and updating to ID-based (`expense.id`), ensuring the correct expense is targeted regardless of sorting or active filters.
+
+---
+
+## Bug 8
+
+**How to reproduce:** Add an expense split equally among 3 or more members (e.g. $100 split 3 ways) or custom percentages.
+
+**What is wrong:** Simple division and rounding caused fractional cents to be lost or invented (e.g., $100 / 3 became 3 × $33.33 = $99.99, losing $0.01), causing group balances to not sum to zero.
+
+**What I changed:** In `src/lib/money.js`, implemented exact penny distribution working in cents (`totalCents = Math.round(amount * 100)`), allocating base cents and distributing remainder pennies among members so `sum(shares) === amount` is always strictly preserved.

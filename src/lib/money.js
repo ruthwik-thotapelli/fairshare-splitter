@@ -7,10 +7,14 @@ export function formatMoney(amount) {
 
 export function splitEqual(amount, ids) {
   const n = ids.length || 1;
-  const each = Number((Number(amount) / n).toFixed(2));
+  const totalCents = Math.round(Number(amount) * 100);
+  const baseCents = Math.floor(totalCents / n);
+  const remainder = totalCents - baseCents * n;
+
   const shares = {};
-  ids.forEach((id) => {
-    shares[id] = each;
+  ids.forEach((id, index) => {
+    const cents = baseCents + (index < remainder ? 1 : 0);
+    shares[id] = cents / 100;
   });
   return shares;
 }
@@ -22,11 +26,21 @@ export function percentsSumTo100(percents) {
 }
 
 export function splitByPercent(amount, percents) {
-  const n = Number(amount);
+  const totalCents = Math.round(Number(amount) * 100);
+  const entries = Object.entries(percents);
   const shares = {};
-  for (const [id, pct] of Object.entries(percents)) {
-    shares[id] = Number(((n * Number(pct)) / 100).toFixed(2));
-  }
+  let allocatedCents = 0;
+
+  entries.forEach(([id, pct], index) => {
+    if (index === entries.length - 1) {
+      const cents = totalCents - allocatedCents;
+      shares[id] = cents / 100;
+    } else {
+      const cents = Math.round((totalCents * Number(pct)) / 100);
+      shares[id] = cents / 100;
+      allocatedCents += cents;
+    }
+  });
   return shares;
 }
 
