@@ -1,0 +1,54 @@
+:root {
+  --paper: #f4efe6;
+  --ink: #1c1914;
+  --muted: #6b6358;
+  --line: #ddd4c6;
+  --card: #fffcf7;
+  --teal: #1f6f64;
+  --teal-soft: #e4f3f0;
+  --clay: #b85c38;
+  --clay-soft: #f8ece6;
+  --good: #1f6f64;
+  --bad: #9b3b2a;
+  --shadow: 0 10px 30px rgba(40, 28, 12, 0.06);
+  font-family: "Segoe UI", "Helvetica Neue", sans-serif;
+  color: var(--ink);
+  background: var(--paper);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  background:
+    radial-gradient(1200px 500px at 10% -10%, #efe4d2 0%, transparent 50%),
+    var(--paper);
+}
+
+h1,
+h2,
+h3 {
+  font-family: Fraunces, Georgia, serif;
+  font-weight: 650;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+.app {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 28px 20px 64px;
+}
