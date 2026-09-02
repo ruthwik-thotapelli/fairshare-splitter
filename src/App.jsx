@@ -1,6 +1,12 @@
 import { useEffect, useMemo, useReducer, useState } from "react";
 import seed from "./data/seed.json";
-import { loadState, nextExpenseId, persistState, reducer } from "./state/store.js";
+import {
+  loadState,
+  nextExpenseId,
+  nextMemberId,
+  persistState,
+  reducer,
+} from "./state/store.js";
 import { computeBalances } from "./lib/balances.js";
 import { suggestSettlements } from "./lib/settle.js";
 import AddExpenseForm from "./components/AddExpenseForm.jsx";
@@ -9,6 +15,8 @@ import ExpenseList from "./components/ExpenseList.jsx";
 import Filters from "./components/Filters.jsx";
 import SettleUpPanel from "./components/SettleUpPanel.jsx";
 import SummaryCards from "./components/SummaryCards.jsx";
+
+const COLORS = ["#5b4b8a", "#1f6f64", "#b85c38", "#3d5a80", "#7a4e2d", "#2c4c3b"];
 
 export default function App() {
   const [state, dispatch] = useReducer(reducer, seed, loadState);
@@ -43,6 +51,17 @@ export default function App() {
     dispatch({
       type: "ADD_EXPENSE",
       expense: { id: nextExpenseId(), ...partial },
+    });
+  }
+
+  function addMember(name) {
+    dispatch({
+      type: "ADD_MEMBER",
+      member: {
+        id: nextMemberId(state.members),
+        name,
+        color: COLORS[state.members.length % COLORS.length],
+      },
     });
   }
 
@@ -84,6 +103,7 @@ export default function App() {
           <SummaryCards
             members={state.members}
             expenses={state.expenses}
+            onAddMember={addMember}
           />
           <BalancesPanel members={state.members} balances={balances} />
           <SettleUpPanel transfers={transfers} />

@@ -21,6 +21,11 @@ export function nextExpenseId() {
   return `e-${Date.now()}`;
 }
 
+export function nextMemberId(members) {
+  const max = members.reduce((m, x) => (x.id > m ? x.id : m), 0);
+  return max + 1;
+}
+
 export function reducer(state, action) {
   switch (action.type) {
     case "ADD_EXPENSE": {
@@ -39,6 +44,9 @@ export function reducer(state, action) {
           i === action.index ? { ...e, ...action.patch } : e
         ),
       };
+    }
+    case "ADD_MEMBER": {
+      return { ...state, members: [...state.members, action.member] };
     }
     default:
       return state;

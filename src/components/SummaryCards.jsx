@@ -1,8 +1,10 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { formatMoney } from "../lib/money.js";
 import { totalSpent } from "../lib/balances.js";
 
-export default function SummaryCards({ members, expenses }) {
+export default function SummaryCards({ members, expenses, onAddMember }) {
+  const [name, setName] = useState("");
+
   const perPerson = useMemo(() => {
     return members.map((m) => {
       const paid = expenses
@@ -44,6 +46,31 @@ export default function SummaryCards({ members, expenses }) {
           </div>
         ))}
       </div>
+      <form
+        style={{ marginTop: 12 }}
+        onSubmit={(e) => {
+          e.preventDefault();
+          const trimmed = name.trim();
+          if (!trimmed) return;
+          onAddMember(trimmed);
+          setName("");
+        }}
+      >
+        <div className="row">
+          <div className="field">
+            <label htmlFor="newMember">Add member</label>
+            <input
+              id="newMember"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Name"
+            />
+          </div>
+          <button className="btn ghost" type="submit" style={{ alignSelf: "end" }}>
+            Add
+          </button>
+        </div>
+      </form>
     </section>
   );
 }
