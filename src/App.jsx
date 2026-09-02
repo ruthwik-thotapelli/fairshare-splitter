@@ -1,6 +1,6 @@
-import { useMemo, useReducer, useState } from "react";
+import { useEffect, useMemo, useReducer, useState } from "react";
 import seed from "./data/seed.json";
-import { nextExpenseId, reducer } from "./state/store.js";
+import { loadState, nextExpenseId, persistState, reducer } from "./state/store.js";
 import { computeBalances } from "./lib/balances.js";
 import { suggestSettlements } from "./lib/settle.js";
 import AddExpenseForm from "./components/AddExpenseForm.jsx";
@@ -11,10 +11,14 @@ import SettleUpPanel from "./components/SettleUpPanel.jsx";
 import SummaryCards from "./components/SummaryCards.jsx";
 
 export default function App() {
-  const [state, dispatch] = useReducer(reducer, seed);
+  const [state, dispatch] = useReducer(reducer, seed, loadState);
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("All");
   const [paidBy, setPaidBy] = useState("");
+
+  useEffect(() => {
+    persistState(state);
+  }, [state]);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
