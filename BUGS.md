@@ -13,3 +13,13 @@ Keep this file in the repo and **commit it** with your fixes.
 **What is wrong:** The list is showing oldest expenses first. Newest should be at the top.
 
 **What I changed:** In `src/components/ExpenseList.jsx`, changed the sort order from `dateValue(a.date) - dateValue(b.date)` to `dateValue(b.date) - dateValue(a.date)` to reverse the sorting so newest expenses appear first.
+
+---
+
+## Bug 2
+
+**How to reproduce:** Add an expense with some data. Use the "Paid by" filter dropdown to filter by a specific person. The expenses don't filter.
+
+**What is wrong:** The "Paid by" filter doesn't work because it compares a string value from the select element to numeric member IDs in the expense data, causing the comparison to always fail.
+
+**What I changed:** In `src/App.jsx`, changed the filter comparison from `e.paidBy !== paidBy` to `e.paidBy !== Number(paidBy)` to convert the string select value to a number before comparing.
