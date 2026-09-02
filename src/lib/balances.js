@@ -6,16 +6,11 @@ export function computeBalances(members, expenses) {
 
   for (const exp of expenses) {
     const shares = sharesForExpense(exp);
-    if (exp.splitWith.includes(exp.paidBy)) {
-      bal[exp.paidBy] = (bal[exp.paidBy] || 0) + Number(exp.amount) - (shares[exp.paidBy] || 0);
-    } else {
-      bal[exp.paidBy] = (bal[exp.paidBy] || 0) + Number(exp.amount) - (exp.amount / (exp.splitWith.length + 1));
-    }
+    bal[exp.paidBy] = (bal[exp.paidBy] || 0) + Number(exp.amount);
 
     for (const [id, share] of Object.entries(shares)) {
-      if (Number(id) !== exp.paidBy) {
-        bal[id] = (bal[id] || 0) - share;
-      }
+      const key = Number(id);
+      bal[key] = (bal[key] || 0) - share;
     }
   }
 
