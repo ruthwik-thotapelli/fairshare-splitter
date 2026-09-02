@@ -33,3 +33,13 @@ Keep this file in the repo and **commit it** with your fixes.
 **What is wrong:** When expenses are loaded from localStorage, the date strings are not converted back to Date objects. This breaks date comparisons and sorting.
 
 **What I changed:** In `src/state/store.js`, modified `loadState()` to call `hydrate()` on the parsed data from localStorage, which converts date strings back to Date objects. Also improved `dateValue()` in `src/lib/format.js` to handle both Date objects and strings.
+
+---
+
+## Bug 4
+
+**How to reproduce:** Add an expense where the payer is NOT included in the split group. For example, person A pays $100 for a cab split between only persons B and C. Check the balances panel and settle-up list.
+
+**What is wrong:** When the payer is not in the split group, they're incorrectly being charged a share of the expense. According to the spec, if someone pays for something they don't use (like a cab they didn't ride), they should get that fare back in full.
+
+**What I changed:** In `src/lib/balances.js`, removed the incorrect logic that was subtracting the payer's share when they weren't in the split. Now the payer simply gets credited the full amount they paid, and only the people in the split group are charged their shares.
