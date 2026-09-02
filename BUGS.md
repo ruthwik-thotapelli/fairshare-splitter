@@ -53,3 +53,13 @@ Keep this file in the repo and **commit it** with your fixes.
 **What is wrong:** The conditions and CSS classes in `BalancesPanel.jsx` were inverted. Positive balance (`bal > 0`) represents credit and should say "is owed", whereas negative balance (`bal < 0`) represents debt and should say "owes".
 
 **What I changed:** In `src/components/BalancesPanel.jsx`, updated the condition checks and class names so `bal > 0.005` renders `is owed ${formatMoney(bal)}` with class `owed` (green), and `bal < -0.005` renders `owes ${formatMoney(-bal)}` with class `owe` (red).
+
+---
+
+## Bug 6
+
+**How to reproduce:** Create a scenario where a debtor owes the exact same amount as a creditor is owed (e.g. Member 1 owes $50 and Member 2 is owed $50). Check the Settle up panel.
+
+**What is wrong:** In `src/lib/settle.js`, the `while` loop had an `else` branch for when `d.amount === c.amount` that only incremented indices `i += 1; j += 1;` without adding the transfer to `transfers`. As a result, exact matching debts were skipped and not resolved in the settlement suggestions.
+
+**What I changed:** In `src/lib/settle.js`, computed `settleAmount = Math.min(d.amount, c.amount)` and pushed the transfer for all valid amounts, decrementing both debtor and creditor amounts and advancing pointers appropriately.
