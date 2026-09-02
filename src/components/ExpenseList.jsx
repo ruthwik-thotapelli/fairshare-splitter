@@ -61,7 +61,7 @@ export default function ExpenseList({
   onUpdate,
 }) {
   const memberMap = Object.fromEntries(members.map((m) => [m.id, m]));
-  const sorted = [...expenses].sort((a, b) => dateValue(a.date) - dateValue(b.date));
+  const sorted = [...expenses].sort((a, b) => dateValue(b.date) - dateValue(a.date));
 
   return (
     <section className="card">
