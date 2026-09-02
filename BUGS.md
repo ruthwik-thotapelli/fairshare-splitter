@@ -93,3 +93,4 @@ Keep this file in the repo and **commit it** with your fixes.
 **What is wrong:** `AddExpenseForm.jsx` did not clear description and amount on submit. Also `SummaryCards.jsx` omitted `members` from the `useMemo` dependency array for `perPerson`.
 
 **What I changed:** Reset `description` and `amount` state upon successful submission in `src/components/AddExpenseForm.jsx`, and added `members` to the `useMemo` dependencies in `src/components/SummaryCards.jsx`.
+
